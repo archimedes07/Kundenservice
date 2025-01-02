@@ -24,13 +24,16 @@ public class SendungController {
 
 	@PostMapping("/einreichen")
 	public ResponseEntity<String> sendungEinreichen(@RequestBody @Valid Sendung sendung, BindingResult bindingResult){
+		sendung.setSendungsnummer(Sendung.generiereEindeutigeSendungsnummer(sendung));
+		sendung.getVerordnungen().forEach(verordnung -> verordnung.setSendung(sendung));
+		sendung.setStatus("eingereicht");
+
 		if (bindingResult.hasErrors()) {
 			StringBuilder errorMessage = new StringBuilder("Fehler bei der Validierung: ");
 			bindingResult.getFieldErrors().forEach(error -> errorMessage.append(String.format("%s - %s; ", error.getField(), error.getDefaultMessage())));
 			return ResponseEntity.badRequest().body(errorMessage.toString());
 		}
-		sendung.setSendungsnummer(Sendung.generiereEindeutigeSendungsnummer(sendung));
-		sendung.setStatus("eingereicht");
+
 		Sendung saved = sendungService.sendungEinreichen(sendung);
 		return ResponseEntity.ok(saved.getSendungsnummer());
 	}

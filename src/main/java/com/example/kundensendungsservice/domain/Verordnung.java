@@ -2,6 +2,9 @@ package com.example.kundensendungsservice.domain;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import com.example.kundensendungsservice.validation.AusstellungsdatumNachGeburtsdatum;
+import com.example.kundensendungsservice.validation.EindeutigeBelegnummer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,9 +15,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@AusstellungsdatumNachGeburtsdatum
 public class Verordnung {
 
 	@Id
@@ -26,6 +31,7 @@ public class Verordnung {
 	private String belegnummer;
 
 	@NotNull(message = "Das Ausstellungsdatum darf nicht null sein.")
+	@Past(message = "Das Ausstellungsdatum muss in der Vergangenheit liegen.")
 	private LocalDate ausstellungsdatum;
 
 	@Size(max = 256, message = "Der Kostenträger-Name darf maximal 256 Zeichen lang sein.")
@@ -132,5 +138,21 @@ public class Verordnung {
 
 	public void setPositionen(final List<Position> positionen) {
 		this.positionen = positionen;
+	}
+
+	@Override
+	public String toString() {
+		return "Verordnung{" +
+				"id=" + id +
+				", belegnummer='" + belegnummer + '\'' +
+				", ausstellungsdatum=" + ausstellungsdatum +
+				", kostentraegerName='" + kostentraegerName + '\'' +
+				", kostentraegerIk=" + kostentraegerIk +
+				", betriebsstaettennummer='" + betriebsstaettennummer + '\'' +
+				", vertragsarztnummer='" + vertragsarztnummer + '\'' +
+				", sendung=" + sendung.getSendungsnummer() +
+				", patient=" + patient +
+				", positionen=" + positionen +
+				'}';
 	}
 }

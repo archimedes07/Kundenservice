@@ -1,18 +1,22 @@
 package com.example.kundensendungsservice.domain;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+
+import com.example.kundensendungsservice.validation.AbrechnungssummeRichtig;
+import com.example.kundensendungsservice.validation.EindeutigeBelegnummer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
+@AbrechnungssummeRichtig
 public class Sendung {
 
 	@Id
@@ -26,12 +30,10 @@ public class Sendung {
 	private BigDecimal abrechnungssumme;
 
 	@OneToMany(mappedBy = "sendung", cascade = CascadeType.ALL)
+	@Valid
 	private List<Verordnung> verordnungen;
 
-	@NotNull
 	private String sendungsnummer;
-
-	private LocalDate einreichungsdatum;
 
 	private String status;
 
@@ -69,14 +71,6 @@ public class Sendung {
 		this.verordnungen = verordnungen;
 	}
 
-	public LocalDate getEinreichungsdatum() {
-		return einreichungsdatum;
-	}
-
-	public void setEinreichungsdatum(final LocalDate einreichungsdatum) {
-		this.einreichungsdatum = einreichungsdatum;
-	}
-
 	public String getSendungsnummer() {
 		return sendungsnummer;
 	}
@@ -95,5 +89,17 @@ public class Sendung {
 
 	public static String generiereEindeutigeSendungsnummer(Sendung sendung){
 		return UUID.randomUUID().toString();
+	}
+
+	@Override
+	public String toString() {
+		return "Sendung{" +
+				"id=" + id +
+				", kundennummer=" + kundennummer +
+				", abrechnungssumme=" + abrechnungssumme +
+				", verordnungen=" + verordnungen +
+				", sendungsnummer='" + sendungsnummer + '\'' +
+				", status='" + status + '\'' +
+				'}';
 	}
 }

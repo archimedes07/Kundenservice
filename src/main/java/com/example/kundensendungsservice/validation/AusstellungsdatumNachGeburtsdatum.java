@@ -6,11 +6,11 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = AbrechnungssummeValidator.class)
+@Constraint(validatedBy = AusstellungsdatumNachGeburtsdatumValidator.class)
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AbrechnungssummeRichtig {
-	String message() default "Abrechnungssumme ist nicht korrekt.";
+public @interface AusstellungsdatumNachGeburtsdatum {
+	String message() default "Ausstellungsdatum darf nicht vor dem Geburtsdatum liegen.";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 }

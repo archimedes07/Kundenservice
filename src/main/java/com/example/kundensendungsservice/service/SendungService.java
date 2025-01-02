@@ -1,6 +1,10 @@
 package com.example.kundensendungsservice.service;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.example.kundensendungsservice.domain.Sendung;
 import com.example.kundensendungsservice.repository.SendungRepository;
@@ -36,4 +40,20 @@ public class SendungService {
 			sendungRepository.save(sendung);
 		}
 	}
+
+	/*@Async
+	public void startStatusUpdateTimer(Sendung sendung) {
+		try {
+			TimeUnit.SECONDS.sleep(10);
+			if (!sendung.getStatus().equals("ist abgerechnet")) {
+				sendung.setStatus("ist abgerechnet");
+				sendungRepository.save(sendung);
+				System.out.println("Status der Sendung " + sendung.getSendungsnummer() + " auf 'ist abgerechnet' gesetzt.");
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	 */
+
 }
