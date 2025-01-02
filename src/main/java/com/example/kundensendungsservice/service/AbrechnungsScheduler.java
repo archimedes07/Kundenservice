@@ -20,6 +20,7 @@ public class AbrechnungsScheduler {
         
         for (Sendung sendung : sendungen) {
             sendung.setStatus("ist abgerechnet");
+            System.out.println(sendung);
             sendungRepository.save(sendung);
         }
     }

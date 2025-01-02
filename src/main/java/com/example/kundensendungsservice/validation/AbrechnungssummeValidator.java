@@ -18,7 +18,6 @@ public class AbrechnungssummeValidator implements ConstraintValidator<Abrechnung
             .map(position -> position.getEinzelpreis().multiply(BigDecimal.valueOf(position.getMenge())))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-
         return sendung.getAbrechnungssumme().compareTo(berechneteSumme) == 0;
     }
 }

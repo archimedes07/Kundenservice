@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EindeutigeBelegnummer {
-    String message() default "Belegnummer existier bereits für diese Kundennummer.";
+    String message() default "Belegnummer existiert bereits für diese Kundennummer.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

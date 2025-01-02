@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.kundensendungsservice.domain.Sendung;
 import com.example.kundensendungsservice.service.SendungService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
+@Tag(name = "Sendung", description = "API zur Verwaltung von Sendungen")
 public class SendungController {
 
 	private final SendungService sendungService;
@@ -22,6 +26,7 @@ public class SendungController {
 		this.sendungService = sendungService;
 	}
 
+	@Operation(summary = "Sendung einreichen", description = "Reicht eine Sendung ein und gibt eine Sendungsnummer zurück")
 	@PostMapping("/einreichen")
 	public ResponseEntity<String> sendungEinreichen(@RequestBody @Valid Sendung sendung, BindingResult bindingResult){
 		sendung.setSendungsnummer(Sendung.generiereEindeutigeSendungsnummer(sendung));
@@ -38,14 +43,16 @@ public class SendungController {
 		return ResponseEntity.ok(saved.getSendungsnummer());
 	}
 
+	@Operation(summary = "Status der Sendung abfragen", description = "Gibt den aktuellen Status der Sendung anhand der Sendungsnummer zurück")
 	@GetMapping("/{sendungsnummer}")
-	public ResponseEntity<String> getSendungStatus(@PathVariable String sendungsnummer){
+	public ResponseEntity<String> getSendungStatus(@PathVariable @Parameter(description = "Die Sendungsnummer der Sendung") String sendungsnummer){
 		return sendungService
 				.getSendungBySendungsnummer(sendungsnummer)
-				.map(sendung -> ResponseEntity.ok("Status der Sendung: "))
+				.map(sendung -> ResponseEntity.ok("Status der Sendung: " + sendung.getStatus()))
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
+	@Operation(summary = "Sendung stornieren", description = "Storniert eine Sendung, solange sie nicht abgerechnet wurde.")
 	@PostMapping("/stornieren/{sendungsnummer}")
 	public ResponseEntity<String> storniereSendung(@PathVariable String sendungsnummer) {
 		try {

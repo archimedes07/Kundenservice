@@ -8,7 +8,6 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +18,8 @@ public class EindeutigeBelegnummerValidator implements ConstraintValidator<Einde
 
     @Autowired
     private SendungRepository sendungRepository;
+
+    public EindeutigeBelegnummerValidator(final SendungRepository sendungRepository) {this.sendungRepository = sendungRepository;}
 
     @Override
     public boolean isValid(Sendung sendung, ConstraintValidatorContext context) {
