@@ -1,10 +1,7 @@
 package com.example.kundensendungsservice.service;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.example.kundensendungsservice.domain.Sendung;
 import com.example.kundensendungsservice.repository.SendungRepository;

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.example.kundensendungsservice.validation.AbrechnungssummeRichtig;
-import com.example.kundensendungsservice.validation.EindeutigeBelegnummer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
