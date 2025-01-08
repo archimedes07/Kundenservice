@@ -5,7 +5,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.math.BigDecimal;
 
-public class AbrechnungssummeValidator implements ConstraintValidator<AbrechnungssummeRichtig, Sendung> {
+public class AbrechnungssummeRichtigValidator implements ConstraintValidator<AbrechnungssummeRichtig, Sendung> {
 
     @Override
     public boolean isValid(Sendung sendung, ConstraintValidatorContext context) {

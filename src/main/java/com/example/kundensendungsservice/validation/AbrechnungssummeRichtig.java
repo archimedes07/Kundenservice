@@ -9,7 +9,7 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = AbrechnungssummeValidator.class)
+@Constraint(validatedBy = AbrechnungssummeRichtigValidator.class)
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AbrechnungssummeRichtig {

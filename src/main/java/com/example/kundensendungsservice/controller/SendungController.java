@@ -21,7 +21,6 @@ public class SendungController {
 
 	private final SendungService sendungService;
 
-	@Autowired
 	public SendungController(final SendungService sendungService) {
 		this.sendungService = sendungService;
 	}
@@ -29,10 +28,6 @@ public class SendungController {
 	@Operation(summary = "Sendung einreichen", description = "Reicht eine Sendung ein und gibt eine Sendungsnummer zurück")
 	@PostMapping("/einreichen")
 	public ResponseEntity<String> sendungEinreichen(@RequestBody @Valid Sendung sendung, BindingResult bindingResult){
-		sendung.setSendungsnummer(Sendung.generiereEindeutigeSendungsnummer(sendung));
-		sendung.getVerordnungen().forEach(verordnung -> verordnung.setSendung(sendung));
-		sendung.setStatus("eingereicht");
-
 		if (bindingResult.hasErrors()) {
 			StringBuilder errorMessage = new StringBuilder("Fehler bei der Validierung: ");
 			bindingResult.getFieldErrors().forEach(error -> errorMessage.append(String.format("%s - %s; ", error.getField(), error.getDefaultMessage())));

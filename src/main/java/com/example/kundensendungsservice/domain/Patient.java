@@ -36,7 +36,7 @@ public class Patient {
 
 	@NotNull(message = "Straße darf nicht null sein.")
 	@Size(max = 256, message = "Straße darf maximal 256 Zeichen lang sein.")
-	private String straße;
+	private String strasse;
 
 	@NotNull(message = "Postleitzahl darf nicht null sein.")
 	@Size(max = 10, message = "Postleitzahl darf maximal 10 Zeichen lang sein.")
@@ -100,12 +100,12 @@ public class Patient {
 		this.versichertenstatus = versichertenstatus;
 	}
 
-	public String getStraße() {
-		return straße;
+	public String getStrasse() {
+		return strasse;
 	}
 
-	public void setStraße(final String straße) {
-		this.straße = straße;
+	public void setStrasse(final String strasse) {
+		this.strasse = strasse;
 	}
 
 	public String getPostleitzahl() {

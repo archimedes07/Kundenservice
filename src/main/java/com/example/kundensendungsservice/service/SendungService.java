@@ -1,7 +1,9 @@
 package com.example.kundensendungsservice.service;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import com.example.kundensendungsservice.domain.Sendung;
 import com.example.kundensendungsservice.repository.SendungRepository;
@@ -15,12 +17,16 @@ public class SendungService {
 		this.sendungRepository = sendungRepository;
 	}
 
-	public Sendung sendungEinreichen(Sendung sendung){
-		return sendungRepository.save(sendung);
-	}
-
 	public Optional<Sendung> getSendungBySendungsnummer(String sendungsnummer){
 		return sendungRepository.findBySendungsnummer(sendungsnummer);
+	}
+
+	public Sendung sendungEinreichen(Sendung sendung){
+		sendung.setSendungsnummer(Sendung.generiereEindeutigeSendungsnummer(sendung));
+		sendung.getVerordnungen().forEach(verordnung -> verordnung.setSendung(sendung));
+		sendung.getVerordnungen().forEach(verordnung -> verordnung.getPositionen().forEach(position -> position.setVerordnung(verordnung)));
+		sendung.setStatus("eingereicht");
+		return sendungRepository.save(sendung);
 	}
 
 	public void storniereSendung(final String sendungsnummer) {
@@ -38,19 +44,14 @@ public class SendungService {
 		}
 	}
 
-	/*@Async
-	public void startStatusUpdateTimer(Sendung sendung) {
-		try {
-			TimeUnit.SECONDS.sleep(10);
-			if (!sendung.getStatus().equals("ist abgerechnet")) {
-				sendung.setStatus("ist abgerechnet");
-				sendungRepository.save(sendung);
-				System.out.println("Status der Sendung " + sendung.getSendungsnummer() + " auf 'ist abgerechnet' gesetzt.");
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	@Scheduled(fixedDelay = 10000)
+	public void checkAndUpdateSendungStatus() {
+		List<Sendung> sendungen = sendungRepository.findByStatus("eingereicht");
+
+		for (Sendung sendung : sendungen) {
+			sendung.setStatus("ist abgerechnet");
+			sendungRepository.save(sendung);
 		}
 	}
-	 */
 
 }
