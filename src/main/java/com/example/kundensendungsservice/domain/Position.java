@@ -1,6 +1,7 @@
 package com.example.kundensendungsservice.domain;
 
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +35,7 @@ public class Position {
 	@Positive(message = "Menge muss eine positive Zahl sein.")
 	private Integer menge;
 
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "verordnung_id")
 	private Verordnung verordnung;

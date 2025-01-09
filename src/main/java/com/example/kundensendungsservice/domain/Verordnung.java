@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.example.kundensendungsservice.validation.AusstellungsdatumNachGeburtsdatum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,6 +48,7 @@ public class Verordnung {
 	@Size(min = 9, max = 9, message = "Die Vertragsarztnummer muss genau 9 Zeichen lang sein.")
 	private String vertragsarztnummer;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "sendung_id")
 	private Sendung sendung;
@@ -54,6 +57,7 @@ public class Verordnung {
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "verordnung", cascade = CascadeType.ALL)
 	private List<Position> positionen;
 

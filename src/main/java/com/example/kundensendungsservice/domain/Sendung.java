@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.example.kundensendungsservice.validation.AbrechnungssummeRichtig;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ public class Sendung {
 	@NotNull
 	private BigDecimal abrechnungssumme;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "sendung", cascade = CascadeType.ALL)
 	@Valid
 	private List<Verordnung> verordnungen;

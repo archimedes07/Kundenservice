@@ -38,6 +38,15 @@ public class SendungController {
 		return ResponseEntity.ok(saved.getSendungsnummer());
 	}
 
+	@Operation(summary = "Sendung abrufen", description = "Gibt die gesamte Sendung anhand der Sendungsnummer zurück")
+	@GetMapping("/details/{sendungsnummer}")
+	public ResponseEntity<Sendung> getSendungDetails(@PathVariable @Parameter(description = "Die Sendungsnummer der Sendung") String sendungsnummer) {
+		return sendungService
+				.getSendungBySendungsnummer(sendungsnummer)
+				.map(ResponseEntity::ok)
+				.orElseGet(() -> ResponseEntity.notFound().build());
+	}
+
 	@Operation(summary = "Status der Sendung abfragen", description = "Gibt den aktuellen Status der Sendung anhand der Sendungsnummer zurück")
 	@GetMapping("/{sendungsnummer}")
 	public ResponseEntity<String> getSendungStatus(@PathVariable @Parameter(description = "Die Sendungsnummer der Sendung") String sendungsnummer){
