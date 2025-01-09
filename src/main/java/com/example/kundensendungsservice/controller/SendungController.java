@@ -39,7 +39,7 @@ public class SendungController {
 	}
 
 	@Operation(summary = "Sendung abrufen", description = "Gibt die gesamte Sendung anhand der Sendungsnummer zurück")
-	@GetMapping("/details/{sendungsnummer}")
+	@GetMapping("/{sendungsnummer}")
 	public ResponseEntity<Sendung> getSendungDetails(@PathVariable @Parameter(description = "Die Sendungsnummer der Sendung") String sendungsnummer) {
 		return sendungService
 				.getSendungBySendungsnummer(sendungsnummer)
@@ -48,7 +48,7 @@ public class SendungController {
 	}
 
 	@Operation(summary = "Status der Sendung abfragen", description = "Gibt den aktuellen Status der Sendung anhand der Sendungsnummer zurück")
-	@GetMapping("/{sendungsnummer}")
+	@GetMapping("/status/{sendungsnummer}")
 	public ResponseEntity<String> getSendungStatus(@PathVariable @Parameter(description = "Die Sendungsnummer der Sendung") String sendungsnummer){
 		return sendungService
 				.getSendungBySendungsnummer(sendungsnummer)
